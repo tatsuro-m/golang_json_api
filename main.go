@@ -38,7 +38,7 @@ func main() {
 		var buf bytes.Buffer
 		enc := json.NewEncoder(&buf)
 		if err := enc.Encode(&tasks); err != nil {
-			log.Fatal(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 		fmt.Println(buf.String())
 
