@@ -33,21 +33,21 @@ var tasks = []Task{{
 	DueDate: time.Now(),
 }}
 
-func main() {
-	handler1 := func(w http.ResponseWriter, r *http.Request) {
-		var buf bytes.Buffer
-		enc := json.NewEncoder(&buf)
-		if err := enc.Encode(&tasks); err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-		}
-		fmt.Println(buf.String())
-
-		_, err := fmt.Fprint(w, buf.String())
-		if err != nil {
-			return
-		}
+func handler1(w http.ResponseWriter, r *http.Request) {
+	var buf bytes.Buffer
+	enc := json.NewEncoder(&buf)
+	if err := enc.Encode(&tasks); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
+	fmt.Println(buf.String())
 
+	_, err := fmt.Fprint(w, buf.String())
+	if err != nil {
+		return
+	}
+}
+
+func main() {
 	// GET /tasks
 	http.HandleFunc("/tasks", handler1)
 	log.Fatal(http.ListenAndServe(":8080", nil))
